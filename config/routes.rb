@@ -6,5 +6,6 @@ Rails.application.routes.draw do
 
   resources :video, only: [] do
     post 'upload', on: :collection
+    get 'find', on: :collection
   end
 end
