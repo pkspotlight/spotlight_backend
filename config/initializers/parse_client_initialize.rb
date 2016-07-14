@@ -5,4 +5,3 @@ def initialize_parse
 end
 
 $parse ||= initialize_parse
-

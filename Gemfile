@@ -37,3 +37,5 @@ gem 'parse-ruby-client', git: 'https://github.com/adelevie/parse-ruby-client.git
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'dotenv-rails'
 gem 'aws-sdk', '~> 2'
+gem 'carrierwave'
+gem 'fog-aws'
