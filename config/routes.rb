@@ -8,4 +8,8 @@ Rails.application.routes.draw do
     post 'upload', on: :collection
     get 'find', on: :collection
   end
+
+  resources :user, only: [] do
+    get 'videos', on: :collection
+  end
 end
