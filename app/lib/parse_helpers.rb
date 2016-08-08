@@ -60,7 +60,6 @@ module ParseHelpers
       end
 
       if audio_object.present?
-        puts "audio object: #{audio_object}"
         audio_id = audio_object.parse_id
         audio_pointer = audio_object.parse_pointer
         video.array_add_relation("audio", audio_pointer)

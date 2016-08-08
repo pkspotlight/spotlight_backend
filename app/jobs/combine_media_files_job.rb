@@ -79,7 +79,6 @@ class CombineMediaFilesJob < ApplicationJob
   end
 
   def create_merge_script(dir)
-    puts "creating merge script"
     script = %q(#!/bin/bash
 TMP=/tmp
 first=${@:1:1}

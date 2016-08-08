@@ -11,7 +11,7 @@ class UserController < ApplicationController
       combined_video_display_helper(video)
     end
 
-    render status: 200, json: {user_uploaded: user_uploaded_videos, combined: combined_videos}
+    render status: 200, json: {combined: combined_videos, user_uploaded: user_uploaded_videos }
   end
 
   private
