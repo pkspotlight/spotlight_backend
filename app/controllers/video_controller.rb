@@ -44,7 +44,8 @@ class VideoController < ApplicationController
     end
     entry = CreateCombinedVideoEntry.new(@user, video_objects, audio_entry)
 
-    CombineMediaFilesJob.perform_later(entry.parse_id)
+    #CombineMediaFilesJob.perform_later(entry.parse_id)
+    CombineMediaFilesJob.new.perform(entry.parse_id)
     object_ids = video_objects.map(&:parse_id)
 
     res = {}
