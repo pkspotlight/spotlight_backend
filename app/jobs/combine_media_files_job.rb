@@ -1,6 +1,5 @@
 class CombineMediaFilesJob < ApplicationJob
   include ParseHelpers
-  queue_as :urgent
 
   def write_videos(video_ids, dir)
     require 'open-uri'
@@ -54,7 +53,7 @@ class CombineMediaFilesJob < ApplicationJob
   def perform(*args)
     id = args.first
     combined_video = CombinedVideoEntry.find(id)
-
+    puts "\n Performing job for #{combined_video}\n"
     Dir.mktmpdir do |dir|
       create_merge_script(dir)
       output_filename = "#{dir}/#{combined_video.id}.mp4"
@@ -79,6 +78,7 @@ class CombineMediaFilesJob < ApplicationJob
   end
 
   def create_merge_script(dir)
+    puts "Creating script in #{dir}"
     script = %q(#!/bin/bash
 TMP=/tmp
 first=${@:1:1}
@@ -124,6 +124,7 @@ rm -f $TMP/mcs_*)
       f.write(script)
     end
     system "chmod +x #{dir}/spotlight_cat"
-    FileUtils.cp("#{dir}/spotlight_cat", "/tmp/test/")
+    #    FileUtils.cp("#{dir}/spotlight_cat", "/tmp/test/")
+    puts "created script in #{dir}"
   end
 end

@@ -9,9 +9,28 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def ensure_user_can_view_combined_video
+    if !(@video_entry['user_id'] == @user_id)
+      status = 400
+      res = { success: false, errors: [ { video: "does not exist" }]}
+      render status: status, json: res
+    end
+  end
+
   def ensure_video_exists
     id = params[:video_id]
     @video_entry = VideoEntry.find(id)
+
+    if @video_entry.nil?
+      status = 404
+      res = { success: false, errors: [ { video: "does not exist" } ] }
+      render status: status, json: res
+    end
+  end
+
+  def ensure_combined_video_exists
+    id = params[:video_id]
+    @video_entry = CombinedVideoEntry.find(id)
 
     if @video_entry.nil?
       status = 404
@@ -25,6 +44,16 @@ class ApplicationController < ActionController::API
 
     if id.nil?
       res = {success: false, errors: [ { video: "video id missing" } ] }
+      status = 404
+      render status: status, json: res
+    end
+  end
+
+  def ensure_combined_video_id_exists
+    id = params[:video_id]
+
+    if id.nil?
+      res = {success: false, errors: [ { video: "video id is missing" } ]}
       status = 404
       render status: status, json: res
     end

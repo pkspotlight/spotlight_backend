@@ -86,6 +86,10 @@ module ParseHelpers
       query = $parse.query("SpotlightCombinedVideo").eq("objectId", id)
       query.get.first
     end
+
+    def self.get_public_url(filename)
+      $s3_bucket.object("uploads/#{filename}").public_url
+    end
   end
 
   class UserEntry

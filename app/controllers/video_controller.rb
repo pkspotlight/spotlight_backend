@@ -6,6 +6,9 @@ class VideoController < ApplicationController
   before_action :ensure_video_id_exists, only: [:find]
   before_action :ensure_video_exists, only: [:find]
   before_action :ensure_user_can_view_video, only: [:find]
+  before_action :ensure_combined_video_id_exists, only: [:find_combined]
+  before_action :ensure_combined_video_exists, only: [:find_combined]
+  before_action :ensure_user_can_view_combined_video, only: [:find_combined]
 
   def find
     res = {}
@@ -13,6 +16,13 @@ class VideoController < ApplicationController
 
     res[:url] = VideoEntry.get_public_url(@video_entry['filename'])
 
+    render status: status, json: res
+  end
+
+  def find_combined
+    res = {}
+    status = 200
+    res[:url] = CombinedVideoEntry.get_public_url(@video_entry['filename'])
     render status: status, json: res
   end
 
@@ -44,6 +54,7 @@ class VideoController < ApplicationController
     end
     entry = CreateCombinedVideoEntry.new(@user, video_objects, audio_entry)
 
+    puts "\n\n scheduling job to transform video"
     CombineMediaFilesJob.perform_later(entry.parse_id)
 
     object_ids = video_objects.map(&:parse_id)
