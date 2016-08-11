@@ -49,12 +49,12 @@ module ParseHelpers
       video['combined'] = false
       video.save
 
-      video_pointers = video_objects.map(&:parse_pointer)
+      video_pointers = video_objects.map(&:parse_pointer).uniq
       video_pointers.each do |pointer|
         video.array_add_relation("videos", pointer)
       end
 
-      video_ids = video_objects.map(&:parse_id).flatten
+      video_ids = video_objects.map(&:parse_id).flatten.uniq
       video_ids.each do |video_id|
         video.array_add("video_ids", video_id)
       end
